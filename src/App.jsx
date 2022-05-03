@@ -1,14 +1,15 @@
-import { Reset } from "styled-reset";
-import { Mobile } from "./assets/MediaQuery/MediaQuery";
-import Main from "./pages/main";
+import GlobalStyle from "./assets/GlobalStyle/globalStyle";
+import { Desktop, Mobile } from "./assets/MediaQuery/MediaQuery";
+import Router from "./routes/router";
 
 function App() {
   return (
     <>
-      <Reset />
+      <GlobalStyle />
       <Mobile>
-        <Main />
+        <Router />
       </Mobile>
+      <Desktop>모바일만 지원합니다.</Desktop>
     </>
   );
 }
