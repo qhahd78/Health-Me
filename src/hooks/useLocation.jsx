@@ -1,25 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { AreaName } from "../recoil/location";
+import { SearchList } from "../recoil/searchResult";
 
 const useLocation = () => {
-  // 위도와 경도를 저장
-  const [MyLatitude, setMyLatitude] = useState(0);
-  const [MyLongtitude, setMyLongtitude] = useState(0);
-
-  // 현재 위도와 경도를 가져오는 함수
-  const getLocation = () => {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      // 위도
-      setMyLatitude(pos.coords.latitude);
-      // 경도
-      setMyLongtitude(pos.coords.longitude);
-    });
-  };
+  const [List, setList] = useRecoilState(SearchList);
+  const nowLocation = useRecoilValue(AreaName);
+  const jsonData = require("../assets/database/places.json");
 
   useEffect(() => {
-    getLocation();
+    for (let i = 0; i < 404; i++) {
+      if (
+        jsonData.centers[i].소재지도로명주소.includes(
+          nowLocation.region_2depth_name
+        )
+      ) {
+        setList([...List, jsonData.centers[i]]);
+      }
+    }
   }, []);
-
-  return MyLatitude;
 };
 
 export default useLocation;

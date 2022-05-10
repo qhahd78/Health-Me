@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import COLORS from "../assets/Colors/colors";
 import Header from "../components/common/header";
 import Navbar from "../components/common/navbar";
 import MapContainer from "../components/molecules/mapContainer";
+import useLocation from "../hooks/useLocation";
+import { AreaName } from "../recoil/location";
+import { SearchList } from "../recoil/searchResult";
 
 const Container = styled.div`
   padding: 28px;
@@ -15,13 +19,6 @@ const Subtitle = styled.p`
 
 const Contents = styled.div`
   width: 100%;
-`;
-
-const MapBox = styled.div`
-  width: 100%;
-  height: 400px;
-  background-color: ${COLORS.LIGHT_GRAY};
-  margin: 16px 0 18px 0;
 `;
 
 const SearchResult = styled.div`
@@ -56,34 +53,46 @@ const ResultBox = styled.div`
   }
 `;
 
-const Map = ({ location = "아산시", resultNum = 12 }) => {
+const Map = () => {
+  const nowLocation = useRecoilValue(AreaName);
+  const resultList = useRecoilValue(SearchList);
+  const [List, setList] = useRecoilState(SearchList);
+
+  const test = () => {
+    const jsonData = require("../assets/database/places.json");
+
+    for (let i = 0; i < 404; i++) {
+      if (
+        jsonData.centers[i].소재지도로명주소.includes(
+          nowLocation.region_2depth_name
+        )
+      ) {
+        setList([...List, jsonData.centers[i]]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    test();
+  }, []);
+
   return (
     <>
       <Header />
       <Container>
-        <Subtitle>{location} 주변 건강시설</Subtitle>
+        <Subtitle>{nowLocation.address_name} 주변 건강시설</Subtitle>
         <Contents>
           <MapContainer></MapContainer>
           <Subtitle2>
-            검색결과 총 <span>{resultNum}</span> 건
+            검색결과 총 <span>{resultList.length}</span> 건
           </Subtitle2>
           <SearchResult>
-            <ResultBox>
-              <p>건강건강 건강센터</p>
-              <p>천안시 서북구 부성 6길 11</p>
-            </ResultBox>
-            <ResultBox>
-              <p>건강건강 건강센터</p>
-              <p>천안시 서북구 부성 6길 11</p>
-            </ResultBox>
-            <ResultBox>
-              <p>건강건강 건강센터</p>
-              <p>천안시 서북구 부성 6길 11</p>
-            </ResultBox>
-            <ResultBox>
-              <p>건강건강 건강센터</p>
-              <p>천안시 서북구 부성 6길 11</p>
-            </ResultBox>
+            {resultList.map((item) => (
+              <ResultBox>
+                <p>{item.건강증진센터명}</p>
+                <p>{item.소재지도로명주소}</p>
+              </ResultBox>
+            ))}
           </SearchResult>
         </Contents>
       </Container>
