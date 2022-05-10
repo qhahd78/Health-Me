@@ -5,8 +5,8 @@ import Router from "./routes/router";
 function App() {
   return (
     <>
-      <GlobalStyle />
       <Mobile>
+        <GlobalStyle />
         <Router />
       </Mobile>
       <Desktop>모바일만 지원합니다.</Desktop>

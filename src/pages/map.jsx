@@ -3,6 +3,7 @@ import styled from "styled-components";
 import COLORS from "../assets/Colors/colors";
 import Header from "../components/common/header";
 import Navbar from "../components/common/navbar";
+import MapContainer from "../components/molecules/mapContainer";
 
 const Container = styled.div`
   padding: 28px;
@@ -55,14 +56,14 @@ const ResultBox = styled.div`
   }
 `;
 
-const Map = ({ location = "천안시", resultNum = 12 }) => {
+const Map = ({ location = "아산시", resultNum = 12 }) => {
   return (
     <>
       <Header />
       <Container>
         <Subtitle>{location} 주변 건강시설</Subtitle>
         <Contents>
-          <MapBox>맵</MapBox>
+          <MapContainer></MapContainer>
           <Subtitle2>
             검색결과 총 <span>{resultNum}</span> 건
           </Subtitle2>
