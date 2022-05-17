@@ -8,15 +8,17 @@ import { NavLink } from "react-router-dom";
 import COLORS from "../../assets/Colors/colors";
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 80px;
+  height: 65px;
   padding: 10px;
   z-index: 5;
+  background-color: white;
+  /* box-shadow: 0px -10px 10px 3px #c7c7c785; */
 
   .active svg {
     stroke: ${COLORS.MAIN_GREEN};
@@ -30,6 +32,7 @@ const Container = styled.div`
 const IconBox = styled.div`
   text-align: center;
   p {
+    font-size: 12px;
     color: #a6abbd;
   }
   &:hover {
