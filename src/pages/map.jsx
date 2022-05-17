@@ -1,13 +1,9 @@
-import React, { useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import COLORS from "../assets/Colors/colors";
 import Header from "../components/common/header";
 import Navbar from "../components/common/navbar";
 import MapContainer from "../components/molecules/mapContainer";
-import useLocation from "../hooks/useLocation";
-import { AreaName } from "../recoil/location";
-import { SearchList } from "../recoil/searchResult";
 
 const Container = styled.div`
   padding: 28px;
@@ -22,7 +18,7 @@ const Contents = styled.div`
 `;
 
 const SearchResult = styled.div`
-  height: 80px;
+  height: 200px;
   overflow-y: scroll;
 `;
 
@@ -53,44 +49,28 @@ const ResultBox = styled.div`
   }
 `;
 
+const jsonData = require("../assets/database/places.json");
+
+let List = jsonData.centers.filter((center) =>
+  center.소재지도로명주소.includes("서울특별시")
+);
+
 const Map = () => {
-  const nowLocation = useRecoilValue(AreaName);
-  const resultList = useRecoilValue(SearchList);
-  const [List, setList] = useRecoilState(SearchList);
-
-  const test = () => {
-    const jsonData = require("../assets/database/places.json");
-
-    for (let i = 0; i < 404; i++) {
-      if (
-        jsonData.centers[i].소재지도로명주소.includes(
-          nowLocation.region_2depth_name
-        )
-      ) {
-        setList([...List, jsonData.centers[i]]);
-      }
-    }
-  };
-
-  useEffect(() => {
-    test();
-  }, []);
-
   return (
     <>
       <Header />
       <Container>
-        <Subtitle>{nowLocation.address_name} 주변 건강시설</Subtitle>
+        <Subtitle>서울특별시 내의 건강시설</Subtitle>
         <Contents>
-          <MapContainer></MapContainer>
+          <MapContainer placeList={List} />
           <Subtitle2>
-            검색결과 총 <span>{resultList.length}</span> 건
+            검색결과 총 <span>{List.length}</span> 건
           </Subtitle2>
           <SearchResult>
-            {resultList.map((item) => (
+            {List.map((item, index) => (
               <ResultBox>
-                <p>{item.건강증진센터명}</p>
-                <p>{item.소재지도로명주소}</p>
+                <p key={index}>{item.건강증진센터명}</p>
+                <p key={index}>{item.소재지도로명주소}</p>
               </ResultBox>
             ))}
           </SearchResult>
