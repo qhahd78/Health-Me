@@ -7,7 +7,7 @@ const { kakao } = window;
 
 const StyledMap = styled.div`
   width: 100%;
-  height: 300px;
+  height: 500px;
   background-color: ${COLORS.LIGHT_GRAY};
   margin: 16px 0 18px 0;
 `;

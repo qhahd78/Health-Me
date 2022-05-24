@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useRef, useState } from "react";
+import styled, { css } from "styled-components";
 import COLORS from "../assets/Colors/colors";
 import Navbar from "../components/common/navbar";
 import Header from "../components/common/header";
@@ -7,7 +7,9 @@ import { TimeInput } from "../components/atoms/Input";
 import { ReactComponent as Sad } from "../assets/Sad.svg";
 import { ReactComponent as Normal } from "../assets/Normal.svg";
 import { ReactComponent as Happy } from "../assets/Happy.svg";
-import { ReactComponent as Best } from "../assets/Sad.svg";
+import { ReactComponent as Best } from "../assets/Best.svg";
+import { ReactComponent as NoEmotion } from "../assets/NoEmotion.svg";
+import { SaveButton } from "../components/atoms/Button";
 
 const Container = styled.div`
   padding: 0 28px 28px 28px;
@@ -79,9 +81,79 @@ const BodyInfoContainer = styled.div`
 
 const EmotionContainer = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+`;
+
+// active 스타일
+const active = css`
+  fill: ${COLORS.MAIN_GREEN};
+  stroke: ${COLORS.MAIN_GREEN};
+`;
+
+const deactive = css`
+  fill: ${COLORS.DARK_GRAY};
+  stroke: ${COLORS.DARK_GRAY};
+`;
+
+const EmotionBox = styled.div`
+  z-index: 5;
+  & > svg {
+    ${({ isActive }) => (isActive ? active : deactive)}
+  }
 `;
 
 const Main = () => {
+  const [IsActive1, setIsActive1] = useState(false);
+  const [IsActive2, setIsActive2] = useState(false);
+  const [IsActive3, setIsActive3] = useState(false);
+  const [IsActive4, setIsActive4] = useState(false);
+  const [IsActive5, setIsActive5] = useState(false);
+
+  const clickEvent = (e) => {
+    switch (e.target.closest("div").id) {
+      case "sad":
+        setIsActive1(true);
+        setIsActive2(false);
+        setIsActive3(false);
+        setIsActive4(false);
+        setIsActive5(false);
+        break;
+      case "normal":
+        setIsActive1(false);
+        setIsActive2(true);
+        setIsActive3(false);
+        setIsActive4(false);
+        setIsActive5(false);
+        break;
+      case "noEmotion":
+        setIsActive1(false);
+        setIsActive2(false);
+        setIsActive3(true);
+        setIsActive4(false);
+        setIsActive5(false);
+        break;
+      case "happy":
+        setIsActive1(false);
+        setIsActive2(false);
+        setIsActive3(false);
+        setIsActive4(true);
+        setIsActive5(false);
+        break;
+      case "best":
+        setIsActive1(false);
+        setIsActive2(false);
+        setIsActive3(false);
+        setIsActive4(false);
+        setIsActive5(true);
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <Header />
@@ -132,13 +204,34 @@ const Main = () => {
           <CategoryTitle>기분😎</CategoryTitle>
           <CategoryContent width="100%">
             <EmotionContainer>
-              <Sad />
-              <Normal />
-              <Happy />
-              <Best />
+              <EmotionBox id="sad" onClick={clickEvent} isActive={IsActive1}>
+                <Sad />
+                <p>최악</p>
+              </EmotionBox>
+              <EmotionBox id="normal" onClick={clickEvent} isActive={IsActive2}>
+                <Normal />
+                <p>별로</p>
+              </EmotionBox>
+              <EmotionBox
+                id="noEmotion"
+                onClick={clickEvent}
+                isActive={IsActive3}
+              >
+                <NoEmotion />
+                <p>보통</p>
+              </EmotionBox>
+              <EmotionBox id="happy" onClick={clickEvent} isActive={IsActive4}>
+                <Happy />
+                <p>좋음</p>
+              </EmotionBox>
+              <EmotionBox id="best" onClick={clickEvent} isActive={IsActive5}>
+                <Best />
+                <p>최고</p>
+              </EmotionBox>
             </EmotionContainer>
           </CategoryContent>
         </Contents>
+        <SaveButton />
       </Container>
       <Navbar />
     </>

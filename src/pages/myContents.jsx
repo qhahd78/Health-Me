@@ -52,7 +52,7 @@ const Graph = ({ userName = "김삿갓" }) => {
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullscreen
+                allowFullScreen
               ></iframe>
               <p>영상제목 어쩌구</p>
             </VideoBox>
@@ -64,7 +64,7 @@ const Graph = ({ userName = "김삿갓" }) => {
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullscreen
+                allowFullScreen
               ></iframe>
               <p>영상제목 어쩌구</p>
             </VideoBox>
@@ -84,7 +84,7 @@ const Graph = ({ userName = "김삿갓" }) => {
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullscreen
+                allowFullScreen
               ></iframe>
               <p>영상제목 어쩌구</p>
             </VideoBox>
@@ -96,7 +96,7 @@ const Graph = ({ userName = "김삿갓" }) => {
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullscreen
+                allowFullScreen
               ></iframe>
               <p>영상제목 어쩌구</p>
             </VideoBox>
