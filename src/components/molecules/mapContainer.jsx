@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import COLORS from "../../assets/Colors/colors";
 import "./overlay.css";
+
 const { kakao } = window;
 
 const StyledMap = styled.div`
@@ -13,26 +14,22 @@ const StyledMap = styled.div`
 
 const MapContainer = (placeList) => {
   // 핀 표기할 지역 리스트 불러오기
-  const pins = placeList;
-
+  let pins = placeList.placeList;
   // 지역의 위도와 경도들을 저장하는 리스트
   let points = [];
 
-  // 마커를 표시할 리스트 설정
-  const setPoints = () => {
-    for (let i = 0; i < pins.placeList.length; i++) {
+  // 최종으로 생성되는 지역의 핀들 리스트
+  let resultPins = [];
+
+  const setResultPins = () => {
+    for (let i = 0; i < pins.length; i++) {
       let data = new Object();
-      data.latitude = pins.placeList[i].위도;
-      data.longitude = pins.placeList[i].경도;
-      data.centerName = pins.placeList[i].건강증진센터명;
+      data.latitude = pins[i].위도;
+      data.longitude = pins[i].경도;
+      data.centerName = pins[i].건강증진센터명;
 
       points.push(data);
     }
-  };
-
-  // 최종으로 생성되는 지역의 핀들 리스트
-  let resultPins = [];
-  const setResultPins = () => {
     for (let item = 0; item < points.length; item++) {
       let kakaoData = new kakao.maps.LatLng(
         points[item].latitude,
@@ -44,12 +41,11 @@ const MapContainer = (placeList) => {
   };
 
   useEffect(() => {
-    // 1차 핀 가공
-    setPoints();
-    // 2차 핀 가공
     setResultPins();
+    console.log(pins);
+    // 2차 핀 가공
     mapDraw();
-  });
+  }, []);
 
   const mapDraw = () => {
     const container = document.getElementById("map");
@@ -64,10 +60,10 @@ const MapContainer = (placeList) => {
     // 마커, 오버레이 생성하는 for 문
     let i, marker;
 
-    for (i = 0; i < placeList.placeList.length; i++) {
-      console.log(placeList.placeList[i].건강증진센터명);
+    for (i = 0; i < pins.length; i++) {
       marker = new kakao.maps.Marker({ map: map, position: resultPins[i] });
-      let myContent = `<div class='container'>${placeList.placeList[i].건강증진센터명}</div>`;
+      let myContent = `<div class='container'>${pins[i].건강증진센터명}</div>`;
+
       let customOverlay = new kakao.maps.CustomOverlay({
         position: resultPins[i],
         content: myContent,

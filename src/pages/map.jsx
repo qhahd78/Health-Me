@@ -51,26 +51,24 @@ const ResultBox = styled.div`
   }
 `;
 
-const jsonData = require("../assets/database/places.json");
-
-let List = jsonData.centers.filter((center) =>
-  center.소재지도로명주소.includes("아산시")
-);
-
 const Map = () => {
+  let jsonData = require("../assets/database/places.json").centers.filter(
+    (center) => center.소재지도로명주소.includes("천안")
+  );
+
   return (
     <>
       <Header />
       <Container>
-        <Subtitle>아산시 내의 건강시설</Subtitle>
+        <Subtitle>천안시 내의 건강시설</Subtitle>
         <Contents>
-          <MapContainer placeList={List} />
+          <MapContainer placeList={jsonData} />
           <Subtitle2>
-            검색결과 총 <span>{List.length}</span> 건
+            검색결과 총 <span>{jsonData.length}</span> 건
           </Subtitle2>
           <SearchResult>
-            {List.map((item) => (
-              <ResultBox key={item.제공기관코드}>
+            {jsonData.map((item) => (
+              <ResultBox>
                 <p>{item.건강증진센터명}</p>
                 <p>{item.소재지도로명주소}</p>
               </ResultBox>
