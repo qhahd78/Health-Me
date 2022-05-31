@@ -2,10 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import COLORS from "../../assets/Colors/colors";
 
-export const TimeInput = () => {
+export const TimeInput = ({ inputName, onChangeFunc }) => {
   return (
     <InputContainer>
-      <input placeholder="0" type="text" />
+      <input
+        name={inputName}
+        placeholder="0"
+        type="text"
+        onChange={onChangeFunc}
+      />
     </InputContainer>
   );
 };

@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+/* eslint-disable no-undef */
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import COLORS from "../assets/Colors/colors";
 import Navbar from "../components/common/navbar";
@@ -10,6 +11,8 @@ import { ReactComponent as Happy } from "../assets/Happy.svg";
 import { ReactComponent as Best } from "../assets/Best.svg";
 import { ReactComponent as NoEmotion } from "../assets/NoEmotion.svg";
 import { SaveButton } from "../components/atoms/Button";
+import { ref, set } from "firebase/database";
+import { database } from "../firebase/firebaseApp";
 
 const Container = styled.div`
   padding: 0 28px 28px 28px;
@@ -110,6 +113,7 @@ const Main = () => {
   const [IsActive3, setIsActive3] = useState(false);
   const [IsActive4, setIsActive4] = useState(false);
   const [IsActive5, setIsActive5] = useState(false);
+  const [InputData, setInputData] = useState({});
 
   const clickEvent = (e) => {
     switch (e.target.closest("div").id) {
@@ -150,8 +154,19 @@ const Main = () => {
         break;
 
       default:
-        break;
     }
+    setInputData({ ...InputData, feel: e.target.closest("div").id });
+    console.log(InputData);
+  };
+
+  const onChangeFunc = (e) => {
+    setInputData({ ...InputData, [e.target.name]: e.target.value });
+    console.log(InputData);
+  };
+
+  // firebase 에 저장
+  const saveFunc = () => {
+    set(ref(database, "userData"), InputData);
   };
 
   return (
@@ -164,11 +179,11 @@ const Main = () => {
           <CategoryContent width="100%">
             <SleepContainer>
               <TimeWrapper>
-                <TimeInput />
+                <TimeInput inputName="sleepTime1" onChangeFunc={onChangeFunc} />
               </TimeWrapper>
               <p>시 부터</p>
               <TimeWrapper>
-                <TimeInput />
+                <TimeInput inputName="sleepTime2" onChangeFunc={onChangeFunc} />
               </TimeWrapper>
               <p>시 까지 취침</p>
             </SleepContainer>
@@ -180,21 +195,27 @@ const Main = () => {
             <CategoryContent width="110px">
               <Subtitle>혈압</Subtitle>
               <BodyInfoContainer>
-                <TimeInput />
+                <TimeInput
+                  inputName="bloodPressure"
+                  onChangeFunc={onChangeFunc}
+                />
                 <p>mmHg</p>
               </BodyInfoContainer>
             </CategoryContent>
             <CategoryContent width="110px">
               <Subtitle>체중</Subtitle>
               <BodyInfoContainer>
-                <TimeInput />
+                <TimeInput inputName="weight" onChangeFunc={onChangeFunc} />
                 <p>kg</p>
               </BodyInfoContainer>
             </CategoryContent>
             <CategoryContent width="110px">
               <Subtitle>운동</Subtitle>
               <BodyInfoContainer>
-                <TimeInput />
+                <TimeInput
+                  inputName="exerciseTime"
+                  onChangeFunc={onChangeFunc}
+                />
                 <p>시간</p>
               </BodyInfoContainer>
             </CategoryContent>
@@ -231,7 +252,7 @@ const Main = () => {
             </EmotionContainer>
           </CategoryContent>
         </Contents>
-        <SaveButton />
+        <SaveButton saveFunc={saveFunc} />
       </Container>
       <Navbar />
     </>

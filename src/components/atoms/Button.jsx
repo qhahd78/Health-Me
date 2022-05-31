@@ -1,10 +1,7 @@
 import styled from "styled-components";
 import COLORS from "../../assets/Colors/colors";
 
-export const SaveButton = () => {
-  const saveFunc = () => {
-    alert("저장을 완료했습니다.");
-  };
+export const SaveButton = ({ saveFunc }) => {
   return <SaveButtonContainer onClick={saveFunc}>완료</SaveButtonContainer>;
 };
 

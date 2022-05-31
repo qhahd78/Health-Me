@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/common/header";
 import Navbar from "../components/common/navbar";
 import styled from "styled-components";
 import COLORS from "../assets/Colors/colors";
 import { ResponsiveLine } from "@nivo/line";
+import { ref, query, orderByChild, onValue } from "firebase/database";
+import { database } from "../firebase/firebaseApp";
 
 const Container = styled.div`
   padding: 0 28px 28px 28px;
@@ -37,6 +39,20 @@ const CategoryContent = styled.div`
 `;
 
 const Graph = () => {
+  const testData = query(ref(database, "userData/"));
+  const [MyData, setMyData] = useState({});
+
+  useEffect(() => {
+    onValue(testData, (snapshot) => {
+      const firebaseData = snapshot.val();
+      const nextData = firebaseData;
+      if (nextData) {
+        setMyData(nextData);
+      }
+    });
+    console.log(MyData);
+  }, []);
+
   const data = [
     {
       id: "수면시간",
@@ -44,7 +60,7 @@ const Graph = () => {
       data: [
         {
           x: "05.25",
-          y: 8,
+          y: Number(MyData.sleepTime2) - Number(MyData.sleepTime1),
         },
         {
           x: "05.26",
