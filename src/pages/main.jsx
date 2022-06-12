@@ -166,7 +166,15 @@ const Main = () => {
 
   // firebase 에 저장
   const saveFunc = () => {
-    set(ref(database, "userData"), InputData);
+    set(ref(database, "test/7"), {
+      date: "06/12",
+      bloodPressure: Number(InputData.bloodPressure),
+      exerciseTime: Number(InputData.exerciseTime),
+      feel: InputData.feel,
+      sleepTime1: Number(InputData.sleepTime1),
+      sleepTime2: Number(InputData.sleepTime2),
+      weight: Number(InputData.weight),
+    });
   };
 
   return (

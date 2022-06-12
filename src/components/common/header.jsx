@@ -12,7 +12,7 @@ const Greeting = styled.p`
   font-weight: 600;
 `;
 
-const Header = ({ userName = "김삿갓" }) => {
+const Header = ({ userName = "TEST" }) => {
   return (
     <Container>
       <Greeting>안녕하세요. {userName} 님!</Greeting>

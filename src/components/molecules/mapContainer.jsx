@@ -42,7 +42,6 @@ const MapContainer = (placeList) => {
 
   useEffect(() => {
     setResultPins();
-    console.log(pins);
     // 2차 핀 가공
     mapDraw();
   }, []);
